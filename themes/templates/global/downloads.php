@@ -72,7 +72,7 @@ if (!function_exists('render_downloads')) {
 			echo "<hr class='m-t-5 m-b-0'>\n";
 			echo "<div class='row m-t-5'>\n";
 			echo "<div class='col-xs-4 col-sm-4 col-md-4 col-lg-4'>\n";
-			echo "<span class='strong text-smaller text-lighter'>".$locale['download_1013'].":</span><br/>".$data['download_license'];
+			echo "<span class='strong text-smaller text-lighter'>".$locale['download_1013'].":<a class='tozoomb' href='".BASEDIR."includes/downloads_includes/agpl.html'></span><br/>".$data['download_license']."</a>";
 			echo "</div>\n<div class='col-xs-4 col-sm-4 col-md-4 col-lg-4'>\n";
 			echo "<span class='strong text-smaller text-lighter'>".$locale['download_1014'].":</span><br/>".$data['download_os'];
 			echo "</div>\n<div class='col-xs-4 col-sm-4 col-md-4 col-lg-4'>\n";

@@ -44,6 +44,44 @@ $configs[DB_NEWS] = array(
 	'contentLinkPattern' => BASEDIR."news.php?readmore={id}"
 );
 
+$configs[DB_ARTICLES] = array(
+	'select' => "SELECT
+					ar.article_id as id, ar.article_subject as title, ar.article_snippet as content,
+					ar.article_datestamp as datestamp, ac.article_cat_id as cat_id, ac.article_cat_name as cat_name,
+					us.user_id, us.user_name, us.user_status
+				FROM ".DB_ARTICLES." as ar
+				INNER JOIN ".DB_ARTICLE_CATS." as ac ON ac.article_cat_id = ar.article_cat
+				INNER JOIN ".DB_USERS." as us ON us.user_id = ar.article_name
+				WHERE ".groupaccess('ar.article_visibility')." ".(multilang_table("AR") ? "AND ac.article_cat_language='".LANGUAGE."'" : "")."
+				ORDER BY ar.article_datestamp DESC LIMIT 3",
+	'locale' => array(
+		'norecord' => $locale['home_0051'],
+		'blockTitle' => $locale['home_0001'],
+	),
+	'categoryLinkPattern' => BASEDIR."articles.php?cat_id={cat_id}",
+	'contentLinkPattern' => BASEDIR."articles.php?article_id={id}"
+);
+
+$configs[DB_BLOG] = array(
+	'select' => "SELECT
+					bl.blog_id as id, bl.blog_subject as title, bl.blog_blog as content,
+					bl.blog_datestamp as datestamp, us.user_id, us.user_name,
+					us.user_status, bc.blog_cat_id as cat_id, bc.blog_cat_name as cat_name
+				FROM ".DB_BLOG." as bl
+				LEFT JOIN ".DB_BLOG_CATS." as bc ON bc.blog_cat_id = bl.blog_cat
+				INNER JOIN ".DB_USERS." as us ON bl.blog_name = us.user_id
+				WHERE (".time()." > bl.blog_start OR bl.blog_start = 0)
+					AND (".time()." < bl.blog_end OR bl.blog_end = 0)
+					AND ".groupaccess('bl.blog_visibility')." ".(multilang_table("BL") ? "AND blog_language='".LANGUAGE."'" : "")."
+				ORDER BY bl.blog_datestamp DESC LIMIT 3",
+	'locale' => array(
+		'norecord' => $locale['home_0052'],
+		'blockTitle' => $locale['home_0002']
+	),
+	'categoryLinkPattern' => BASEDIR."blog_cats.php?cat_id={cat_id}",
+	'contentLinkPattern' => BASEDIR."blog.php?readmore={id}"
+);
+
 $configs[DB_DOWNLOADS] = array(
 	'select' => "SELECT
 					dl.download_id as id, dl.download_title as title, dl.download_description_short as content,
